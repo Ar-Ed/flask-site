@@ -1,0 +1,27 @@
+{%extends "boiler_plate.html"%}
+{%block title%} Sign in {%endblock%}
+{%block body%}
+<div class="container">
+    <h2 class="mt-5 text-danger display-1 text-center">Æ</h2>
+    <form method="POST" class="mt-5">
+        {{form.hidden_tag()}}
+        <div class="mb-4 my-auto">
+            {{form.username.label(class="form-label")}}
+            {{form.username(class="form-control", placeholder="User Name")}}
+        </div>
+        <div class="mb-4">
+            {{form.password.label(class="form-label")}}
+            {{form.password(class="form-control", placeholder="Password")}}
+        </div>
+        <div class="mb-4 scale" >
+            {{form.submit(class="btn btn-primary w-100")}}
+        </div>
+    </form>
+    
+    <form method="get" action="{{url_for('users.register')}}" class="mb-5">
+        <button class="btn btn-dark w-100 scale" value="Don't have an account?">
+            Don't have an account?
+        </button>
+    </form>
+</div>
+{%endblock%}

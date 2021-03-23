@@ -1,0 +1,111 @@
+{%extends "boiler_plate.html"%}
+{%block title%} {{user_name}} {%endblock%}
+{%block body%}
+
+<div class="container">
+    {%if current_user.user_name == user_name %}
+    <div class="flex-wrap row">
+        <div class="account flex-grow-1 col-6 mt-5 mb-5 px-5">
+            <div class="d-flex justify-content-around mb-4 flex-wrap">
+                <img src="{{image_file}}" alt="Profile Picture" width="128px" class="border border-warning rounded">
+                <h3 class="align-self-center" >{{user_name}}</h3>
+            </div>
+            <hr>
+            <h3>Comments</h3>
+                {%for comment in User.query.filter_by(user_name=user_name).first().comments%}
+                <div class="d-flex flex-row flex-wrap p-3 mb-4">                    
+                      <div class="w-100 ms-3">
+                            <h5>Article Title: {{comment.article.title}}</h5>
+                            <hr>
+                          <div class="d-flex justify-content-between align-items-center mt-2">
+                              <small>{{comment.date.strftime("%y-%m-%d %H:%M")}}   </small>
+                              <small>{{comment.user.user_name}}</small>
+                          </div>
+                          <p class="text-justify comment-text mb-0">{{comment.user_comment}}</p>
+                      </div>
+                  </div>
+                {%endfor%}
+            <h3>Articles</h3>
+                
+                <div class="p-3 ms-3 mb-4">
+                    {%for article in User.query.filter_by(user_name=user_name).first().articles%}
+                        <div class="d-flex justify-content-between">
+                            <h4>{{article.title}}</h4>
+                            <p>{{article.date.strftime("%y-%m-%d %H:%M")}} </p>
+                        </div>    
+                        <hr>
+                    {%endfor%}
+                </div>   
+        </div>
+        
+        <form method="POST" class="mt-5 mb-5 flex-wrap " enctype="multipart/form-data" style="max-width: 500px;">
+            {{form.hidden_tag()}}
+            <div class="d-flex mb-3 justify-content-around flex-wrap">
+                <div class="">
+                    {{form.username.label(class="form-label")}}
+                    {{form.username(class="form-control", placeholder="User Name")}}
+                </div>
+                <div class="">
+                    {{form.username_new.label(class="form-label")}}
+                    {{form.username_new(class="form-control", placeholder="New User Name")}}
+                </div>
+            </div>
+            <div class="d-flex mb-4 justify-content-around flex-wrap">
+                <div class="">
+                    {{form.password.label(class="form-label")}}
+                    {{form.password(class="form-control", placeholder="Password")}}
+                </div>
+                <div class="">
+                    {{form.password_new.label(class="form-label")}}
+                    {{form.password_new(class="form-control", placeholder="New Password")}}
+                </div>
+            </div>
+            <hr>
+            <div class="mb-3">
+                {{form.image.label(class="form-label")}}
+                {{form.image(class="form-control-file")}}
+            </div>
+            <div class="mb-3 scale" >
+                {{form.submit(class="btn btn-primary w-100")}}
+            </div>
+        </form>
+    </div>
+    {%else%}
+    <div class="d-flex justify-content-center">
+        <div class="account col-6 mt-5 mb-5 px-5">
+            <div class="d-flex justify-content-around mb-4">
+                <img src="{{image_file}}" alt="Profile Picture" width="128px" class="border border-warning rounded">
+                <h3 class="align-self-center" >{{user_name}}</h3>
+            </div>
+            <hr>
+            <h3>Comments</h3>
+                {%for comment in User.query.filter_by(user_name=user_name).first().comments%}
+                <div class="d-flex flex-row p-3 mb-4">                    
+                      <div class="w-100 ms-3">
+                            <h5>Article Title: {{comment.article.title}}</h5>
+                            <hr>
+                          <div class="d-flex justify-content-between align-items-center mt-2">
+                              <small>{{comment.date.strftime("%y-%m-%d %H:%M")}}   </small>
+                              <small>{{comment.user.user_name}}</small>
+                          </div>
+                          <p class="text-justify comment-text mb-0">{{comment.user_comment}}</p>
+                      </div>
+                  </div>
+                {%endfor%}
+            <h3>Articles</h3>
+                
+                <div class="p-3 ms-3 mb-4">
+                    {%for article in User.query.filter_by(user_name=user_name).first().articles%}
+                        <div class="d-flex justify-content-between">
+                            <h4>{{article.title}}</h4>
+                            <p>{{article.date.strftime("%y-%m-%d %H:%M")}} </p>
+                        </div>    
+                        <hr>
+                    {%endfor%}
+                </div>   
+        </div>
+    </div>
+
+    {%endif%}
+</div>
+{%endblock%}

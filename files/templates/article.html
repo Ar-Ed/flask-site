@@ -1,0 +1,73 @@
+{%extends "boiler_plate.html"%}
+{%block title%} {{article_name}} {%endblock%}
+{%block body%}
+<div class="container p-4">
+  <h1 class="mb-5 mt-5 text-center">{{article.title}}</h1>
+  <div class="row">
+    <div class="col-sm-9 card p-3 word-wrap text-wrap" id="article_content">
+      <div class="d-flex justify-content-between">
+        <div class="float-left">{{article.date.strftime("%y-%m-%d %H:%M")}} </div>
+        <div class="float-right"><a
+            href="{{url_for('users.account_page', user_name=article.user.user_name)}}">{{article.user.user_name}}</a>
+        </div>
+      </div>
+      <br>
+      {{article.article_content | safe}}
+    </div>
+    <div class="col-sm-3">
+      One of three columns
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5 mb-5">
+  <div class="row height d-flex align-items-center">
+    <div class="col-md-7">
+      <div class="card">
+        <div class="p-3">
+          <h6>Comments - {{Comments.total}}</h6>
+        </div>
+        {%if current_user.is_authenticated %}
+        {{form.hidden_tag()}}
+        <form class="mt-3 d-flex flex-row p-3 mx-0" id="comment" method="POST">
+          {{ form.csrf_token() }}
+          {{form.comment(class="form-control", placeholder="Enter your comment " + current_user.user_name)}}
+          {{form.submit(class="btn btn-primary")}}
+        </form>
+        {%endif%}
+        <div class="mt-2">
+          {%for comment in Comments.items%}
+          <hr class="dropdown-divider">
+          <div class="d-flex flex-row p-3 m-{{margin}}">
+            <img src="{{url_for('static', filename='img/' + comment.user.image)}}" width="50" height="50"
+              class="rounded-circle mr-3">
+            <div class="w-100 ms-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <small>{{comment.date.strftime("%y-%m-%d %H:%M")}} <a
+                    href="{{url_for('users.account_page', user_name=comment.user.user_name)}}">{{comment.user.user_name}}</a></small>
+              </div>
+              <p class="text-justify comment-text mb-0">{{comment.user_comment}}</p>
+            </div>
+          </div>
+        </div>
+          <div class="m-1">
+            {%endfor%}
+            {%for section in Comments.iter_pages(left_edge=1,right_edge=1, left_current=1, right_current=2)%}
+              {%if section%}
+                {%if section == Comments.page%}
+                <a href="{{url_for('posts.article', article_name=article_name, page=section)}}" class="btn btn-info">
+                  {{section}}</a>
+                {%else%}
+                <a href="{{url_for('posts.article', article_name=article_name, page=section)}}"class="btn btn-outline-info"> {{section}}</a>
+                {%endif%}
+              {%else%}
+              <span>...</span>
+              {%endif%}
+            {%endfor%}
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%endblock%}

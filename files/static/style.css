@@ -1,0 +1,47 @@
+html{
+    height:100%
+}
+
+body{
+    display:flex;
+    flex-direction: column;
+    min-height: 100%;
+    word-wrap: break-word;
+}
+
+footer{
+    margin-top: auto;
+}
+
+form{
+    max-width: 400px; 
+    margin: auto;
+}
+
+#search{
+    margin: 0;
+}
+
+#footer{
+    text-align: center;
+}
+
+.admin_form{
+    max-width: 600px;
+}
+
+.card{
+    max-width: 1000px;
+}
+
+#comment{
+    max-width: 1000px;
+}
+
+.scale:hover{
+    transform: scale(1.05);
+}
+
+.scale:active{
+    transform: scale(0.95);
+}

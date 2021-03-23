@@ -1,0 +1,36 @@
+{%extends "boiler_plate.html"%}
+{%block title%} Panel {%endblock%}
+{%block body%}
+  <div class="container">
+      <h1 class="mt-5 mb-4 text-center">Admin Panel</h1>
+  <form method="POST" class="admin_form">
+      {{form.hidden_tag()}}
+      <div class="mb-3">
+        {{form.title.label(class="form-label")}}
+        {{form.title(class="form-control")}}
+      </div>
+      <div class="mb-3">
+        {{form.category.label(class="form-label")}}
+        {{form.category(class="form-control")}}
+      </div>
+      <div class="mb-3">
+        {{form.abstract.label(class="form-label")}}
+        {{form.abstract(class="form-control")}}
+      </div>
+      <div class="mb-3">
+        {{form.article_content.label(class="form-label")}}
+        {{form.article_content(class="form-control")}}
+      </div>
+      {{form.submit(class="btn-primary btn mb-5 scale")}}
+    </form>
+    <form method="POST" class="admin_form">
+      {{form.hidden_tag()}}
+      <div class="mb-3">
+        {{form_category.category.label(class="form-label")}}
+        {{form_category.category(class="form-control")}}
+      </div>
+      {{form.submit(class="btn-primary btn mb-5 scale")}}
+    </form>
+  </div>
+
+{%endblock%}

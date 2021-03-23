@@ -1,0 +1,25 @@
+{%extends "boiler_plate.html"%}
+{%block title%} Register {%endblock%}
+{%block body%}
+<div class="container">
+    <h2 class="mt-5 text-danger text-center">Register</h2>
+    <form method="POST" class="mt-5 mb-5">
+        {{form.hidden_tag()}}
+        <div class="mb-4">
+            {{form.username.label(class="form-label")}}
+            {{form.username(class="form-control", placeholder="User Name")}}
+        </div>
+        <div class="mb-4">
+            {{form.password.label(class="form-label")}}
+            {{form.password(class="form-control", placeholder="Password")}}
+        </div>
+        <div class="mb-5">
+            {{form.password_check.label(class="form-label")}}
+            {{form.password_check(class="form-control", placeholder="Password")}}
+        </div>
+        <div class="mb-5 scale" >
+            {{form.submit(class="btn btn-primary w-100")}}
+        </div>
+    </form>
+</div>
+{%endblock%}

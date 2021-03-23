@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/tiger.ico') }}">
+    
+    <title>{%block title%}Boiler{%endblock%}</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.min.css')}}">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand text-danger" href="{{url_for('main.home')}}">Æ</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        
+          <div class="collapse navbar-collapse border-light" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active text-dark" aria-current="page" href="{{url_for('main.home')}}">About</a>
+              </li>
+              {%if current_user%}
+                {%if current_user.user_name == 'Admin'%}  
+                <li class="nav-item">
+                  <a class="nav-link active text-warning" aria-current="page" href="{{url_for('posts.admin_control')}}">Panel</a>
+                </li>
+                {%endif%}
+                {%if not current_user.is_authenticated%}            
+                <li class="nav-item">
+                  <a class="nav-link active text-dark" aria-current="page" href="{{url_for('users.register')}}">Register</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active text-dark" aria-current="page" href="{{url_for('users.login')}}">Sign in</a>
+                </li>
+                {%else%}
+                <li class="nav-item">
+                  <a class="nav-link active text-dark" aria-current="page" href="{{url_for('users.logout')}}">Logout</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active text-dark" aria-current="page" href="{{url_for('users.account_page', user_name = current_user.user_name)}}">Account</a>
+                </li>
+                {%endif%}
+              {%endif%}
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-dark" href="{{url_for('posts.articles')}}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Articles
+                </a>
+                
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {%for category_ in Category.query.all()%}
+                  <li><a class="dropdown-item" href="/{{category_.category_name}}">{{category_.category_name}}</a></li>                  
+                {%endfor%}
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="{{url_for('posts.articles')}}">Articles</a></li>
+                </ul>
+              </li>
+            </ul>
+            <form class="d-flex" id="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-light" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+      {%with messages = get_flashed_messages(with_categories=true)%}
+        {%if messages%}
+          {%for category, message in messages %}
+          {%if category == 'danger'%}
+            <div class="alert alert-{{category}} alert-dismissible fade show mb-0" role="alert">
+              <strong>An Error Occurred: </strong> {{message}}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {%endif%}
+          {%if category == 'success'%}
+            <div class="alert alert-{{category}} alert-dismissible fade show mb-0" role="alert">
+              <strong>Succesfully! </strong> {{message}}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {%endif%}
+          {%endfor%}
+        {%endif%}
+      {%endwith%}
+
+      {%block body%}{%endblock%}
+
+      <footer class="footer py-2 bg-primary">
+        <div class="container" id="footer">
+          <span><small>&copy; Copyright 2021, Ar-Ed</small></span>
+        </div>
+      </footer>
+
+<script src="{{url_for('static', filename = 'bootstrap.min.js')}}" crossorigin="anonymous"></script> 
+
+</body>
+</html>
